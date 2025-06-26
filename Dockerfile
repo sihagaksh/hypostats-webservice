@@ -1,19 +1,22 @@
-# Use official Python 3.9 image
+# ─────────────────────────────────────────────────────────────────
+# Use a stable, supported Python version
 FROM python:3.9-slim
 
-# Set working directory
+# Where our code will live
 WORKDIR /app
 
-# Copy requirements and install build tools + deps
+# Copy only requirements first (to leverage Docker cache)
 COPY requirements.txt .
+
+# Upgrade pip + build tools, then install deps
 RUN pip install --upgrade pip setuptools wheel \
  && pip install -r requirements.txt
 
-# Copy the rest of your code
+# Copy the rest of your source code
 COPY . .
 
-# Expose port (if your app uses a non-default port, change this)
+# Expose the port gunicorn (or your Flask) will use
 EXPOSE 5000
 
-# Start the app
-CMD ["python", "app.py"]
+# Use gunicorn to run your Flask app defined in app.py
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5000"]
