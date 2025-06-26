@@ -1,12 +1,6 @@
- services:
-   - type: web
-     name: hypothesis-testing-service
-     env: python
--    buildCommand: pip install -r requirements.txt
-+    buildCommand: |
-+      pip install --upgrade pip setuptools wheel
-+      pip install -r requirements.txt
-     startCommand: python app.py
-     envVars:
-       - key: PYTHON_VERSION
-         value: 3.9.16
+services:
+  - type: web
+    name: hypothesis-testing-service
+    env: docker
+    dockerfilePath: Dockerfile
+    startCommand: python app.py
