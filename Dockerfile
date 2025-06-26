@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 5000
 
 # 6️⃣ Launch via Gunicorn, binding to Render’s $PORT
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:$PORT"]
+CMD gunicorn app:app --bind 0.0.0.0:$PORT
